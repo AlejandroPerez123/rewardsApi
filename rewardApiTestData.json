@@ -1,0 +1,51 @@
+[
+{
+    
+      "customerId": 5,
+      "date": "2021-11-15",
+      "amount": 250
+
+},
+{
+    
+      "customerId": 4,
+      "date": "2021-11-15",
+      "amount": 200
+
+},
+{
+    
+      "customerId": 4,
+      "date": "2021-11-16",
+      "amount": 300
+
+},
+{
+    
+      "customerId": 4,
+      "date": "2021-10-16",
+      "amount": 300
+
+},
+{
+    
+      "customerId": 4,
+      "date": "2021-12-16",
+      "amount": 500
+
+},
+{
+    
+      "customerId": 5,
+      "date": "2021-09-16",
+      "amount": 300
+
+},
+{
+    
+      "customerId": 1,
+      "date": "2021-09-16",
+      "amount": 120
+
+}
+]

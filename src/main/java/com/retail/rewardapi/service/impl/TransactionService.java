@@ -30,7 +30,7 @@ public class TransactionService implements TransactionServiceI {
 
 
 
-    public List<RewardsCalculation> createPurchase(Transaction purchase) {
+    private List<RewardsCalculation> createPurchase(Transaction purchase) {
 
         int pointsEarned = Calculations.calculateRewardPoints(purchase.getAmount());
         String monthOfTransaction = DateUtils.getMonthName(purchase.getDate());
