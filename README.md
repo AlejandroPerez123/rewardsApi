@@ -67,9 +67,14 @@ along with the Bad Request response.
 ![img_1.png](img_1.png)
 
 
+#Build
 To Build:
 'mvn install' will run tests and build the application.
 
 To Run:
 'mvn spring-boot:run' will run the application and you can proceed,
 to sending the requests described above.
+
+#Test Data
+To Test the API, a json file containing test data has been provided in the root of the project.
+![img_2.png](img_2.png)
