@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class DateUtils {
 
-    public static int getMonthNumber(Date date){
 
+    public static String getMonthName(Date date){
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return  localDate.getMonthValue();
+        return  localDate.getMonth().name();
 
     }
 }

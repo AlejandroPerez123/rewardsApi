@@ -22,11 +22,12 @@ public class TransactionController {
 
 
 
-    @PostMapping("/{customerId}")
-    public ResponseEntity<RewardsCalculationResponse> createPurchase(@RequestBody Transaction transaction){
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(transactionServiceI.createPurchase(transaction));
+    @GetMapping("/")
+    public List<RewardsCalculationResponse> calculateRewardsFromTransactions(@RequestBody List<Transaction> transactionList){
+        return transactionServiceI.getCustomerPoints(transactionList);
+
     }
 
 
