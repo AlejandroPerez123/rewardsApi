@@ -1,7 +1,7 @@
 package com.retail.rewardapi.service.impl;
 
-import com.retail.rewardapi.entity.Transaction;
-import com.retail.rewardapi.model.RewardsCalculationResponse;
+import com.retail.rewardapi.model.Transaction;
+import com.retail.rewardapi.model.RewardsCalculation;
 import com.retail.rewardapi.service.TransactionServiceI;
 import com.retail.rewardapi.utils.Calculations;
 import com.retail.rewardapi.utils.DateUtils;
@@ -15,54 +15,63 @@ import java.util.Map;
 @Service
 public class TransactionService implements TransactionServiceI {
 
-    List<RewardsCalculationResponse> rewards = new LinkedList<>();
+    List<RewardsCalculation> rewards = new LinkedList<>();
+
+
 
     @Override
-    public void createPurchase(Transaction purchase) {
+    public List<RewardsCalculation> calculateRewardsFromTransactions(List<Transaction> transactionList) {
+        for (Transaction transaction :transactionList) {
+            createPurchase(transaction);
+        }
+        return this.rewards;
+    }
 
+
+
+
+    public List<RewardsCalculation> createPurchase(Transaction purchase) {
+
+        int pointsEarned = Calculations.calculateRewardPoints(purchase.getAmount());
         String monthOfTransaction = DateUtils.getMonthName(purchase.getDate());
         boolean customerRegistered = false;
         if(!rewards.isEmpty()) {
-            for (RewardsCalculationResponse reward : rewards) {
+            for (RewardsCalculation reward : rewards) {
                 if (reward.getCustomerId() == purchase.getCustomerId()) {
-                    reward.setRewardPoints(reward.getRewardPoints() + purchase.getAmount());
+                    reward.setRewardPoints(reward.getRewardPoints() + pointsEarned);
                     if(reward.getRewardRecord().get(monthOfTransaction)==null){
-                        reward.getRewardRecord().put(monthOfTransaction, purchase.getAmount());
+                        reward.getRewardRecord().put(monthOfTransaction, pointsEarned);
                     }else{
-                        reward.getRewardRecord().put(monthOfTransaction,reward.getRewardRecord().get(monthOfTransaction)+purchase.getAmount());
+                        reward.getRewardRecord().put(monthOfTransaction,reward.getRewardRecord().get(monthOfTransaction)+pointsEarned);
                     }
                     customerRegistered = true;
                 }
             }
             if (!customerRegistered) {
-                rewards.add(createRewardsRecord(purchase));
+                rewards.add(createRewardsCalculationRecord(purchase));
             }
         }else {
-            rewards.add(createRewardsRecord(purchase));
+            rewards.add(createRewardsCalculationRecord(purchase));
         }
 
+        return rewards;
     }
 
-    private RewardsCalculationResponse createRewardsRecord(Transaction transaction){
+    private RewardsCalculation createRewardsCalculationRecord(Transaction transaction){
+        int pointsEarned = Calculations.calculateRewardPoints(transaction.getAmount());
         String monthOfTransaction = DateUtils.getMonthName(transaction.getDate());
-        RewardsCalculationResponse calculationResponse = new RewardsCalculationResponse();
-        calculationResponse.setRewardPoints(transaction.getAmount());
+        RewardsCalculation calculationResponse = new RewardsCalculation();
+        calculationResponse.setRewardPoints(pointsEarned);
         if (calculationResponse.getRewardRecord() == null) {
             Map<String, Integer> record = new HashMap<>();
             calculationResponse.setRewardRecord(record);
         }
             calculationResponse.setCustomerId(transaction.getCustomerId());
-            calculationResponse.getRewardRecord().put(monthOfTransaction, Calculations.calculateRewardPoints(transaction.getAmount()));
+            calculationResponse.getRewardRecord().put(monthOfTransaction, pointsEarned);
         return calculationResponse;
     }
 
-    @Override
-    public List<RewardsCalculationResponse> getCustomerPoints(List<Transaction> transactionList) {
-        for (Transaction transaction :transactionList) {
-           createPurchase(transaction);
-        }
-        return this.rewards;
-    }
+
 
 
 }

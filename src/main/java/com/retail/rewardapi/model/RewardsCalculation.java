@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RewardsCalculationResponse {
+public class RewardsCalculation {
 
 
     private int customerId;

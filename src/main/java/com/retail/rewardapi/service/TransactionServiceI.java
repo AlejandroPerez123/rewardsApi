@@ -1,12 +1,13 @@
 package com.retail.rewardapi.service;
 
-import com.retail.rewardapi.entity.Transaction;
-import com.retail.rewardapi.model.RewardsCalculationResponse;
+import com.retail.rewardapi.model.Transaction;
+import com.retail.rewardapi.model.RewardsCalculation;
 
 import java.util.List;
 
 public interface TransactionServiceI {
 
-    public void createPurchase(Transaction purchase);
-    public List<RewardsCalculationResponse> getCustomerPoints(List<Transaction> transactionList);
+
+    public List<RewardsCalculation> calculateRewardsFromTransactions(List<Transaction> transactionList);
+
 }
